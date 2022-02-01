@@ -16,19 +16,19 @@ class ExtensionCard extends React.Component {
         this.state = { disabled: true };
     }
 
-    componentDidMount () {
+    async componentDidMount () {
         const extensionChannel = new BroadcastChannel('extension');
-        const promise = new Promise(resolve => {
+        const getInstalled = new Promise(resolve => {
             extensionChannel.postMessage({ action: 'get' });
             extensionChannel.addEventListener('message', (event) => {
                 if (event.data.action === 'tell') {
+                    console.log(event.data.data);
                     resolve(event.data.data);
                 }
             }, { once: true });
         });
-        promise.then(data => {
-            if (data) this.setState({ disabled: data.includes(this.props.id) });
-        });
+        const installed = await getInstalled;
+        this.setState({ disabled: installed.includes(this.props.id) });
     }
 
     handleClick () {
