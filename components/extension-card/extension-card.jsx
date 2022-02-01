@@ -84,7 +84,7 @@ ExtensionCard.defaultProps = {
     id: 'example',
     name: 'Example Extension',
     author: 'Anonymous',
-    inset_icon: 'https://raw.githubusercontent.com/SinanGentoo/oh-my-catblocks/master/assets/inset_icon.svg',
+    inset_icon: 'https://raw.fastgit.org/SinanGentoo/oh-my-catblocks/master/assets/inset_icon.svg',
 };
 
 export default ExtensionCard;
