@@ -13,7 +13,7 @@ class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, ['handleClick']);
-        this.state = { disabled: false };
+        this.state = { disabled: false, loading: true };
     }
 
     async componentDidMount () {
@@ -24,6 +24,7 @@ class ExtensionCard extends React.Component {
             extensionChannel.addEventListener('message', (event) => {
                 if (event.data.action === 'tell') {
                     this.setState({ disabled: event.data.data.includes(this.props.id) });
+                    this.setState({ loading: false });
                 }
             }, { once: true });
         });
@@ -40,6 +41,16 @@ class ExtensionCard extends React.Component {
         });
         this.setState({ disabled: true });
     }
+
+    getStatusText () {
+        if (this.state.disabled) {
+            return 'Installed';
+        } else if (this.state.loading) {
+            return 'Loading...';
+        } else {
+            return 'Install';
+        }
+    }        
 
     render () {
         return (
@@ -67,9 +78,9 @@ class ExtensionCard extends React.Component {
                         <Button
                             variant="outlined"
                             onClick={this.handleClick}
-                            disabled={this.state.disabled}
+                            disabled={this.state.disabled && this.state.loading}
                         >
-                            {this.state.disabled ? 'Installed' : 'Install'}
+                            {this.getStatusText()}
                         </Button>
                     </Box>
                 </Card>
