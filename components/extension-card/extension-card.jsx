@@ -78,7 +78,7 @@ class ExtensionCard extends React.Component {
                         <Button
                             variant="outlined"
                             onClick={this.handleClick}
-                            disabled={this.state.disabled && this.state.loading}
+                            disabled={this.state.disabled || this.state.loading}
                         >
                             {this.getStatusText()}
                         </Button>
