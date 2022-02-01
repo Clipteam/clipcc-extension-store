@@ -12,8 +12,24 @@ import styles from './extension-card.module.css';
 class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
-        bindAll(this, ['handleClick']);
-        this.state = { disabled: false };
+        bindAll(this, ['handleClick', 'getInstalled']);
+        this.state = { disabled: true };
+        this.getInstalled();
+    }
+
+    getInstalled () {
+        const promise = new Promise(resolve => {
+            const extensionChannel = new BroadcastChannel('extension');
+            extensionChannel.postMessage({ action: 'get' });
+            extensionChannel.addEventListener('message', (event) => {
+                if (event.data.action === 'tell') {
+                    resolve(event.data.data);
+                }
+            }, { once: true });
+        });
+        promise.then(data => {
+            if (data) this.setState({ disabled: data.includes(this.props.id) });
+        });
     }
 
     handleClick () {
@@ -74,7 +90,7 @@ ExtensionCard.defaultProps = {
     id: 'example',
     name: 'Example Extension',
     author: 'Anonymous',
-    inset_icon: 'https://raw.githubusercontent.com/SinanGentoo/oh-my-catblocks/master/assets/inset_icon.svg'
+    inset_icon: 'https://raw.githubusercontent.com/SinanGentoo/oh-my-catblocks/master/assets/inset_icon.svg',
 };
 
 export default ExtensionCard;
