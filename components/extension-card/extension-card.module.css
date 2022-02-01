@@ -1,0 +1,28 @@
+.box {
+    display: block;
+    margin: 1rem;
+}
+
+.card {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    display: block;
+    margin-left: 1rem;
+}
+
+.switch {
+    display: block;
+    margin-left: auto;
+}
