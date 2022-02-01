@@ -12,14 +12,13 @@ import styles from './extension-card.module.css';
 class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
-        bindAll(this, ['handleClick', 'getInstalled']);
+        bindAll(this, ['handleClick']);
         this.state = { disabled: true };
-        this.getInstalled();
     }
 
-    getInstalled () {
+    componentDidMount () {
+        const extensionChannel = new BroadcastChannel('extension');
         const promise = new Promise(resolve => {
-            const extensionChannel = new BroadcastChannel('extension');
             extensionChannel.postMessage({ action: 'get' });
             extensionChannel.addEventListener('message', (event) => {
                 if (event.data.action === 'tell') {
