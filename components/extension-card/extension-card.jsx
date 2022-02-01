@@ -26,7 +26,7 @@ class ExtensionCard extends React.Component {
                     this.setState({ disabled: event.data.data.includes(this.props.id) });
                     this.setState({ loading: false });
                 }
-            }, { once: true });
+            });
         });
         console.log('getInstalled');
         await getInstalled;
