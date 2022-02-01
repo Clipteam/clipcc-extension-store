@@ -5,7 +5,6 @@ import axios from 'axios';
 import ExtensionCard from '../components/extension-card/extension-card.jsx';
 import MenuBar from '../components/menu-bar/menu-bar.jsx';
 import Box from '@mui/material/Box';
-import styles from '../styles/home.module.css';
 
 class Home extends React.Component {
     constructor(props) {
