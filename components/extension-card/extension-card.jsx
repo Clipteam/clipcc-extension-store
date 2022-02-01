@@ -13,7 +13,7 @@ class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, ['handleClick']);
-        this.state = { disabled: true };
+        this.state = { disabled: false };
     }
 
     componentDidMount () {
