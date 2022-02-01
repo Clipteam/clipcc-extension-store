@@ -23,8 +23,7 @@ class ExtensionCard extends React.Component {
             extensionChannel.postMessage({ action: 'get' });
             extensionChannel.addEventListener('message', (event) => {
                 if (event.data.action === 'tell') {
-                    console.log(event.data.data);
-                    this.setState({ disabled: installed.includes(this.props.id) });
+                    this.setState({ disabled: event.data.data.includes(this.props.id) });
                 }
             }, { once: true });
         });
