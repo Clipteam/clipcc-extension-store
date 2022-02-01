@@ -18,6 +18,7 @@ class ExtensionCard extends React.Component {
 
     componentDidMount () {
         const extensionChannel = new BroadcastChannel('extension');
+        extensionChannel.postMessage({action: 'get'});
         extensionChannel.addEventListener('message', (event) => {
             if (event.data.action === 'tell') {
                 console.log(event.data.data);
