@@ -13,7 +13,10 @@ class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, ['handleClick']);
-        this.state = { disabled: false, loading: true };
+        this.state = {
+            disabled: true, 
+            status: 'loading'
+        };
     }
 
     async componentDidMount () {
@@ -22,9 +25,18 @@ class ExtensionCard extends React.Component {
             const extensionChannel = new BroadcastChannel('extension');
             extensionChannel.postMessage({ action: 'get' });
             extensionChannel.addEventListener('message', (event) => {
+                console.log(event)
                 if (event.data.action === 'tell') {
-                    this.setState({ disabled: event.data.data.includes(this.props.id) });
-                    this.setState({ loading: false });
+                    if (event.data.data.includes(this.props.id)){
+                        this.setState({ disabled: true, status: 'installed' });
+                    } else {
+                        this.setState({ disabled: false, status: 'notinstalled' });
+                    }
+                } else if (event.data.action === 'addSuccess' && event.data.extensionId === this.props.id) {
+                    this.setState({ disabled: true, status: 'installed' });
+                } else if (event.data.action === 'addFail' && event.data.extensionId === this.props.id) {
+                    alert(`extension "${this.props.name}" install failled!\n${event.data.error}`)
+                    this.setState({ disabled: false, status: 'notinstalled' });
                 }
             });
         });
@@ -39,16 +51,19 @@ class ExtensionCard extends React.Component {
             extension: this.props.id,
             download: this.props.download
         });
-        this.setState({ disabled: true });
+        this.setState({ disabled: true, status: 'installing' });
     }
 
     getStatusText () {
-        if (this.state.disabled) {
-            return 'Installed';
-        } else if (this.state.loading) {
-            return 'Loading...';
-        } else {
-            return 'Install';
+        switch (this.state.status) {
+            case 'loading':
+                return 'Loading...'
+            case 'installed':
+                return 'Installed'
+            case 'installing':
+                return 'Installing...'
+            default:
+                return 'Install'
         }
     }        
 
@@ -78,7 +93,7 @@ class ExtensionCard extends React.Component {
                         <Button
                             variant="outlined"
                             onClick={this.handleClick}
-                            disabled={this.state.disabled || this.state.loading}
+                            disabled={this.state.disabled}
                         >
                             {this.getStatusText()}
                         </Button>
