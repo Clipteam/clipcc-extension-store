@@ -58,7 +58,7 @@ class ExtensionCard extends React.Component {
     }
 
     handleClick () {
-        const extensionChannel = new BroadcastChannel('extension');
+        this.setState({ disabled: true, status: 'installing' });
         if (window.ClipCC) {
             window.ClipCC.addExtension(this.props.download)
                 .then(() => this.setState({ disabled: true, status: 'installed' }))
@@ -67,13 +67,13 @@ class ExtensionCard extends React.Component {
                     alert('Install Fail')
                 })
         } else {
+            const extensionChannel = new BroadcastChannel('extension');
             extensionChannel.postMessage({
                 action: 'add',
                 extension: this.props.id,
                 download: this.props.download
             });
         }
-        this.setState({ disabled: true, status: 'installing' });
     }
 
     getStatusText () {
