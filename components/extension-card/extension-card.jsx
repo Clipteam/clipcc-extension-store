@@ -12,7 +12,7 @@ import styles from './extension-card.module.css';
 class ExtensionCard extends React.Component {
     constructor (props) {
         super(props);
-        bindAll(this, ['handleClick']);
+        bindAll(this, ['handleClick','getInstalledDesktop']);
         this.state = {
             disabled: true, 
             status: 'loading'
@@ -20,7 +20,6 @@ class ExtensionCard extends React.Component {
     }
 
     async componentDidMount () {
-        console.log('componentDidMount');
         const getInstalled = new Promise((resolve, reject) => {
             const extensionChannel = new BroadcastChannel('extension');
             extensionChannel.postMessage({ action: 'get' });
@@ -35,22 +34,45 @@ class ExtensionCard extends React.Component {
                 } else if (event.data.action === 'addSuccess' && event.data.extensionId === this.props.id) {
                     this.setState({ disabled: true, status: 'installed' });
                 } else if (event.data.action === 'addFail' && event.data.extensionId === this.props.id) {
-                    alert(`extension "${this.props.name}" install failled!\n${event.data.error}`)
+                    alert(`extension "${this.props.name}" install failed!\n${event.data.error}`)
                     this.setState({ disabled: false, status: 'notinstalled' });
                 }
             });
         });
-        console.log('getInstalled');
+        if (window.ClipCC) {
+            return await this.getInstalledDesktop()
+        }
         await getInstalled;
+    }
+
+    async getInstalledDesktop() {
+        const extensionList = [];
+        const extension = await window.ClipCC.getInstalledExtension();
+        for (const ext in extension) extensionList.push(ext);
+        if (extensionList.includes(this.props.id)){
+            this.setState({ disabled: true, status: 'installed' });
+        } else {
+            this.setState({ disabled: false, status: 'notinstalled' });
+        }
+        return extension;
     }
 
     handleClick () {
         const extensionChannel = new BroadcastChannel('extension');
-        extensionChannel.postMessage({
-            action: 'add',
-            extension: this.props.id,
-            download: this.props.download
-        });
+        if (window.ClipCC) {
+            window.ClipCC.addExtension(this.props.download)
+                .then(() => this.setState({ disabled: true, status: 'installed' }))
+                .catch(() => {
+                    this.setState({ disabled: false, status: 'notinstalled' });
+                    alert('Install Fail')
+                })
+        } else {
+            extensionChannel.postMessage({
+                action: 'add',
+                extension: this.props.id,
+                download: this.props.download
+            });
+        }
         this.setState({ disabled: true, status: 'installing' });
     }
 
