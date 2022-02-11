@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 
 import styles from './extension-card.module.css';
 
@@ -94,22 +95,25 @@ class ExtensionCard extends React.Component {
             <Box className={styles.box}>
                 <Card className={styles.card}>
                     <Box className={styles.info}>
-                    <Typography
-                        sx={{ fontSize: 21 }}
-                        color="text.primary"
-                        className={styles.text}
-                        align="center"
-                    >
-                        {this.props.name}
-                    </Typography>
-                    <Typography
-                        sx={{ fontSize: 12 }}
-                        color="text.secondary"
-                        className={styles.text}
-                        align="center"
-                    >
-                        {"Author: " + this.props.author}
-                    </Typography>
+                        <Box className={styles.title}>
+                            <Typography
+                                sx={{ fontSize: 21 }}
+                                color="text.primary"
+                                className={styles.text}
+                                align="center"
+                            >
+                                {this.props.name}
+                            </Typography>
+                            <Typography
+                                sx={{ fontSize: 12 }}
+                                color="text.secondary"
+                                className={styles.text}
+                                align="center"
+                           >
+                               {"Author: " + this.props.author}
+                            </Typography>
+                        </Box>
+                        <Chip>lol</Chip>
                     </Box>
                     <Box className={styles.switch}>
                         <Button

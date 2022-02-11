@@ -4,7 +4,7 @@
 }
 
 .card {
-    height: 60px;
+    height: 80px;
     display: flex;
     align-items: center;
     padding: 10px;
@@ -12,9 +12,15 @@
 
 .info {
     display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.title {
+    display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .text {
