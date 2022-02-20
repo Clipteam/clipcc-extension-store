@@ -19,7 +19,7 @@ class Home extends React.Component {
                 </Head>
                 <MenuBar />
                 {
-                    this.props.extensions === null? <h1>Unable to fetch extension list.</h1>
+                    this.props.extensions === null? <h1>Unable to fetch extension list. <a href="">Reload</a></h1>
                     : this.props.extensions.map((extension) => <ExtensionCard key={null} {...extension}/>)
                 }
             </Box>
