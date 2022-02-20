@@ -1,10 +1,6 @@
 module.exports = {
-  assetPrefix: getBasePath(),
-  basePath: getBasePath(), 
-  webpack(webpackConfig) {
-    webpackConfig.output.publicPath = getBasePath() + webpackConfig.output.publicPath; 
-    return webpackConfig;
-  },
+  assetPrefix: '/extension',
+  basePath: '/extension',
   reactStrictMode: true,
 }
 
