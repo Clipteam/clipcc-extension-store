@@ -21,7 +21,7 @@ class Home extends React.Component {
     async componentDidMount () {
         let fetched;
         try {
-            fetched = await axios.get('https://raw.githubusercontent.com/Clipteam/clipcc-extension-list/master/list.json');
+            fetched = await axios.get('https://cdn.jsdelivr.net/gh/Clipteam/clipcc-extension-list/list.json');
             console.log(fetched.data);
             this.setState({
                 status: 'loaded',
