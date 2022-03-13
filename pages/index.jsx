@@ -25,7 +25,7 @@ class Home extends React.Component {
             console.log(fetched.data);
             this.setState({
                 status: 'loaded',
-                extensions: fetched.data
+                extensions: fetched.data.data
             });
         } catch (error) {
             this.setState({
