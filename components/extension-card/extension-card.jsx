@@ -113,7 +113,6 @@ class ExtensionCard extends React.Component {
                                {"Author: " + this.props.author}
                             </Typography>
                         </Box>
-                        <Chip>lol</Chip>
                     </Box>
                     <Box className={styles.switch}>
                         <Button
